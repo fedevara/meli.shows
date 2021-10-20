@@ -19,17 +19,11 @@ public class TeatroServiceImpl implements TeatroService {
     TeatroRepository teatroRepository;
 
     @Override
-    public void registrar(TeatroDTO teatro) {
-
-    }
-
-    @Override
     public List<TeatroDTO> getAll() {
 
-        List<Teatro> teatrosList = teatroRepository.findAll();
         List<TeatroDTO> teatrosResponse = new ArrayList<>();
 
-        for (Teatro teatro : teatrosList) {
+        for (Teatro teatro : teatroRepository.findAll()) {
             teatrosResponse.add(TeatroAssembler.assemble(teatro));
         }
 

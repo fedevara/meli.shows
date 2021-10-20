@@ -8,8 +8,6 @@ import java.util.Optional;
 
 public interface TeatroService {
 
-    void registrar(TeatroDTO teatro);
-
     List<TeatroDTO> getAll();
 
     Teatro modificar(Teatro teatro);
