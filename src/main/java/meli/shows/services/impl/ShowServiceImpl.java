@@ -52,6 +52,29 @@ public class ShowServiceImpl implements ShowService {
 
     }
 
+    @Override
+    public FuncionButacasResponse getShowInfo(Long idFuncion, Long idShow) {
+
+        Funcion funcion = getFuncion(idFuncion);;
+        ShowDTO show = getShowById(idShow);
+
+        FuncionButacasResponse funButacaRes = fillFuncionButacaResponse(funcion, show);
+
+        return funButacaRes;
+    }
+
+    private Funcion getFuncion(Long idFuncion) {
+        Funcion funcion = null;
+        if (cache.isDataValid()) {
+            funcion = FuncionAssembler.assemble(cache.getFuncion(idFuncion));
+        }
+        if (funcion == null) {
+            funcion = funcionRepository.getById(idFuncion);
+            cache.addFuncion(FuncionAssembler.assemble(funcion));
+        }
+        return funcion;
+    }
+
     private ShowDTO getShowById(Long idShow) {
         ShowDTO show = null;
         if (cache.isDataValid()) {
@@ -64,27 +87,13 @@ public class ShowServiceImpl implements ShowService {
         return show;
     }
 
-    @Override
-    public FuncionButacasResponse getShowInfo(Long idFuncion, Long idShow) {
-
-        Funcion funcion = null;
-        ShowDTO show = getShowById(idShow);
-
-        if (cache.isDataValid()) {
-            funcion = FuncionAssembler.assemble(cache.getFuncion(idFuncion));
-        }
-        if (funcion == null) {
-            funcion = funcionRepository.getById(idFuncion);
-            cache.addFuncion(FuncionAssembler.assemble(funcion));
-        }
-
+    private FuncionButacasResponse fillFuncionButacaResponse(Funcion funcion, ShowDTO show) {
         FuncionButacasResponse funButacaRes = new FuncionButacasResponse();
         funButacaRes.setIdShow(show.getId());
         funButacaRes.setNombre(show.getNombre());
         funButacaRes.setCategoria(show.getCategoria());
         funButacaRes.setDuracion(show.getDuracion());
         funButacaRes.setDiaHorario(funcion.getDiaHorario());
-
         return funButacaRes;
     }
 
