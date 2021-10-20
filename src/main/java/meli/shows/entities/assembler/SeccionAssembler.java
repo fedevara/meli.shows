@@ -39,7 +39,7 @@ public class SeccionAssembler {
 
         List<ButacaDTO> butacaList = new ArrayList<>();
 
-        if(butacas!=null) {
+        if (butacas != null) {
             for (Butaca butaca : butacas) {
                 butacaList.add(ButacaAssembler.assemble(butaca));
             }

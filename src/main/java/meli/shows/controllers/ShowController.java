@@ -9,6 +9,7 @@ import meli.shows.entities.dto.ButacaDTO;
 import meli.shows.entities.dto.FuncionDTO;
 import meli.shows.entities.dto.ReservaDTO;
 import meli.shows.entities.dto.ShowDTO;
+import meli.shows.entities.exception.ReservaAlreadyExistException;
 import meli.shows.services.ButacaService;
 import meli.shows.services.FuncionService;
 import meli.shows.services.ReservaService;
@@ -43,8 +44,14 @@ public class ShowController {
         return ResponseEntity.ok(showService.getAll());
     }
 
+    @GetMapping("/busqueda-avanzada-shows")
+    public ResponseEntity<List<ShowDTO>> getAdvancedAll() {
+        logger.debug("Búsqueda de todos los Shows");
+        return ResponseEntity.ok(showService.getAll());
+    }
+
     @GetMapping("/listar-butacas-disponibles")
-    public ResponseEntity<FuncionButacasResponse> getAll(@RequestParam(value="funcion_id") Long idFuncion, @RequestParam(value="show_id") Long idShow) {
+    public ResponseEntity<FuncionButacasResponse> getAll(@RequestParam(value = "funcion_id") Long idFuncion, @RequestParam(value = "show_id") Long idShow) {
         logger.debug("Búsqueda del show: " + idFuncion + ", funcion: " + idFuncion);
         FuncionButacasResponse funcionButacasResponse = showService.getShowInfo(idFuncion, idShow);
         funcionButacasResponse.setButacas(butacaService.getButacasLibresFuncion(idFuncion));
@@ -52,20 +59,22 @@ public class ShowController {
     }
 
     @PostMapping("/reservar-butaca")
-    public ResponseEntity<ReservaDTO> registrar(@RequestBody ReservaRequest reservaReq) {
-        logger.debug("Registrando nueva reserva");
+    public ResponseEntity<Object> registrar(@RequestBody ReservaRequest reservaReq) {
+        try {
+            logger.debug("Registrando nueva reserva");
 
-        ButacaDTO butacaDto = ButacaAssembler.assemble(butacaService.getById(reservaReq.getButaca()).get());
-        FuncionDTO funcionDto = FuncionAssembler.assemble(funcionService.getById(reservaReq.getFuncion()).get());
-        ReservaDTO reservaDto = ReservaAssembler.assemble(reservaReq);
+            ButacaDTO butacaDto = ButacaAssembler.assemble(butacaService.getById(reservaReq.getButaca()).get());
+            FuncionDTO funcionDto = FuncionAssembler.assemble(funcionService.getById(reservaReq.getFuncion()).get());
+            ReservaDTO reservaDto = ReservaAssembler.assemble(reservaReq);
 
-        reservaDto.setButaca(butacaDto);
-        reservaDto.setFuncion(funcionDto);
+            reservaDto.setButaca(butacaDto);
+            reservaDto.setFuncion(funcionDto);
 
-        reservaDto = reservaService.registrar(reservaDto);
-
-        return new ResponseEntity<>(reservaDto, HttpStatus.CREATED);
-
+            reservaDto = reservaService.registrar(reservaDto);
+            return new ResponseEntity<>(reservaDto, HttpStatus.CREATED);
+        } catch (ReservaAlreadyExistException e) {
+            return new ResponseEntity<>(e.getCustomMessage(), HttpStatus.CONFLICT);
+        }
     }
 
 }

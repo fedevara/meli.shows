@@ -55,7 +55,8 @@ public class ShowServiceImpl implements ShowService {
     @Override
     public FuncionButacasResponse getShowInfo(Long idFuncion, Long idShow) {
 
-        Funcion funcion = getFuncion(idFuncion);;
+        Funcion funcion = getFuncion(idFuncion);
+        ;
         ShowDTO show = getShowById(idShow);
 
         FuncionButacasResponse funButacaRes = fillFuncionButacaResponse(funcion, show);

@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="Sala")
+@Table(name = "Sala")
 @Getter
 @Setter
 public class Sala {
@@ -18,7 +18,7 @@ public class Sala {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="idTeatroFK", referencedColumnName = "idTeatro")
+    @JoinColumn(name = "idTeatroFK", referencedColumnName = "idTeatro")
     private Teatro teatro;
 
     @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL)

@@ -39,7 +39,7 @@ public class ButacaServiceImpl implements ButacaService {
     @Override
     public List<ButacaDTO> getButacasLibresFuncion(Long idFuncion) {
         List<ButacaDTO> butacaList = new ArrayList<>();
-        for (Butaca butaca: butacaRepository.getButacasLibresFuncion(idFuncion)){
+        for (Butaca butaca : butacaRepository.getButacasLibresFuncion(idFuncion)) {
             butacaList.add(ButacaAssembler.assemble(butaca));
         }
         return butacaList;

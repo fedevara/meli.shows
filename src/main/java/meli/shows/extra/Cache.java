@@ -20,23 +20,23 @@ public class Cache {
 
     public static Cache getInstance() {
 
-        if (instance==null) {
-            instance=new Cache();
+        if (instance == null) {
+            instance = new Cache();
         }
         return instance;
 
     }
 
-    private Cache(){
+    private Cache() {
 
     }
 
     public boolean isDataValid() {
 
-        if (updateTime==null){
+        if (updateTime == null) {
             updateTime = new Date();
             return false;
-        }else{
+        } else {
 
             long diffInMillies = Math.abs(updateTime.getTime() - (new Date()).getTime());
             long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);

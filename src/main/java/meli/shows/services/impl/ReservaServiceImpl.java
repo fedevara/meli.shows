@@ -1,8 +1,10 @@
 package meli.shows.services.impl;
 
+import lombok.NonNull;
 import meli.shows.entities.Reserva;
 import meli.shows.entities.assembler.ReservaAssembler;
 import meli.shows.entities.dto.ReservaDTO;
+import meli.shows.entities.exception.ReservaAlreadyExistException;
 import meli.shows.repository.ReservaRepository;
 import meli.shows.services.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +21,28 @@ public class ReservaServiceImpl implements ReservaService {
     ReservaRepository reservaRepository;
 
     @Override
-    public ReservaDTO registrar(ReservaDTO reserva) {
-        if(reserva != null){
-            Reserva reservaOk = reservaRepository.save(ReservaAssembler.assemble(reserva));
+    public ReservaDTO registrar(@NonNull ReservaDTO nuevaReserva) throws ReservaAlreadyExistException {
+//       if(nuevaReserva == null){
+//           return null;
+//       }
+
+        long butacaId = nuevaReserva.getButaca().getId();
+        long funcionId = nuevaReserva.getFuncion().getId();
+        String documento = nuevaReserva.getDocumento();
+
+        Optional<Reserva> reservaOptional = reservaRepository.selectByButacaAndFuncion(butacaId, funcionId);
+
+        Reserva reservaOk;
+        if (reservaOptional.isEmpty()) {
+            reservaOk = reservaRepository.save(ReservaAssembler.assemble(nuevaReserva));
             return ReservaAssembler.assemble(reservaOk);
         }
-        return null;
+
+        if (nuevaReserva.getDocumento().equals(reservaOptional.get().getDocumento())) {
+            return ReservaAssembler.assemble(reservaOptional.get());
+        }
+
+        throw new ReservaAlreadyExistException();
     }
 
     @Override

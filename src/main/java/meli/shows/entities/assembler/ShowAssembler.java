@@ -43,7 +43,7 @@ public class ShowAssembler {
 
         List<FuncionDTO> funcionlist = new ArrayList<>();
 
-        if(funciones!=null) {
+        if (funciones != null) {
             for (Funcion funcion : funciones) {
                 funcionlist.add(FuncionAssembler.assemble(funcion));
             }
@@ -57,7 +57,7 @@ public class ShowAssembler {
 
         Set<Funcion> funcionlist = new HashSet<>();
 
-        if(funciones!=null) {
+        if (funciones != null) {
             for (FuncionDTO funcionDto : funciones) {
                 funcionlist.add(FuncionAssembler.assemble(funcionDto));
             }
@@ -71,7 +71,7 @@ public class ShowAssembler {
 
         List<SeccionDTO> seccionlist = new ArrayList<>();
 
-        if(secciones!=null) {
+        if (secciones != null) {
             for (Seccion seccion : secciones) {
                 seccionlist.add(SeccionAssembler.assemble(seccion));
             }
@@ -85,7 +85,7 @@ public class ShowAssembler {
 
         Set<Seccion> seccionlist = new HashSet<>();
 
-        if(secciones!=null) {
+        if (secciones != null) {
             for (SeccionDTO seccion : secciones) {
                 seccionlist.add(SeccionAssembler.assemble(seccion));
             }

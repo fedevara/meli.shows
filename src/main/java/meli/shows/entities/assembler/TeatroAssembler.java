@@ -45,7 +45,7 @@ public class TeatroAssembler {
 
         List<ShowDTO> showlist = new ArrayList<>();
 
-        if(shows!=null) {
+        if (shows != null) {
             for (Show show : shows) {
                 showlist.add(ShowAssembler.assemble(show));
             }
@@ -59,7 +59,7 @@ public class TeatroAssembler {
 
         Set<Show> showSet = new HashSet<>();
 
-        if(shows!=null) {
+        if (shows != null) {
             for (ShowDTO showDto : shows) {
                 showSet.add(ShowAssembler.assemble(showDto));
             }
@@ -73,7 +73,7 @@ public class TeatroAssembler {
 
         List<SalaDTO> salalist = new ArrayList<>();
 
-        if(salas!=null) {
+        if (salas != null) {
             for (Sala sala : salas) {
                 salalist.add(SalaAssembler.assemble(sala));
             }
@@ -87,7 +87,7 @@ public class TeatroAssembler {
 
         Set<Sala> salaSet = new HashSet<>();
 
-        if(salas!=null) {
+        if (salas != null) {
             for (SalaDTO salaDto : salas) {
                 salaSet.add(SalaAssembler.assemble(salaDto));
             }

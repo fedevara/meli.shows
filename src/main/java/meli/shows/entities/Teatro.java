@@ -7,14 +7,14 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="Teatro")
+@Table(name = "Teatro")
 @Getter
 @Setter
 public class Teatro {
 
     @Id
-    @Column(name="idTeatro")
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "idTeatro")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nombre;

@@ -43,7 +43,7 @@ public class SalaAssembler {
 
         List<FuncionDTO> funcionlist = new ArrayList<>();
 
-        if(funciones!=null) {
+        if (funciones != null) {
             for (Funcion funcion : funciones) {
                 funcionlist.add(FuncionAssembler.assemble(funcion));
             }
@@ -57,7 +57,7 @@ public class SalaAssembler {
 
         Set<Funcion> funcionlist = new HashSet<>();
 
-        if(funciones!=null) {
+        if (funciones != null) {
             for (FuncionDTO funcionDto : funciones) {
                 funcionlist.add(FuncionAssembler.assemble(funcionDto));
             }
@@ -71,7 +71,7 @@ public class SalaAssembler {
 
         List<ButacaDTO> butacalist = new ArrayList<>();
 
-        if(butacas!=null) {
+        if (butacas != null) {
             for (Butaca butaca : butacas) {
                 butacalist.add(ButacaAssembler.assemble(butaca));
             }
@@ -85,7 +85,7 @@ public class SalaAssembler {
 
         Set<Butaca> butacaSet = new HashSet<>();
 
-        if(butacas!=null) {
+        if (butacas != null) {
             for (ButacaDTO butacaDto : butacas) {
                 butacaSet.add(ButacaAssembler.assemble(butacaDto));
             }

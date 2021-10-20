@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name="Reserva")
+@Table(name = "Reserva")
 @IdClass(ReservaPK.class)
 @Getter
 @Setter
@@ -15,12 +15,12 @@ public class Reserva {
 
     @Id
     @ManyToOne
-    @JoinColumn(name="idButacaFK", referencedColumnName = "idButaca")
+    @JoinColumn(name = "idButacaFK", referencedColumnName = "idButaca")
     private Butaca butaca;
 
     @Id
     @ManyToOne
-    @JoinColumn(name="idFuncionFK", referencedColumnName = "idFuncion")
+    @JoinColumn(name = "idFuncionFK", referencedColumnName = "idFuncion")
     private Funcion funcion;
 
     private String nombre;
