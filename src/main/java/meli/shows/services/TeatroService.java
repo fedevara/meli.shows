@@ -10,10 +10,6 @@ public interface TeatroService {
 
     List<TeatroDTO> getAll();
 
-    Teatro modificar(Teatro teatro);
-
-    void borrar(Long id);
-
     Optional<Teatro> getById(Long id);
 
 }

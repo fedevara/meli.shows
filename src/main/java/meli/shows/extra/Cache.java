@@ -1,8 +1,5 @@
 package meli.shows.extra;
 
-import meli.shows.entities.Funcion;
-import meli.shows.entities.assembler.FuncionAssembler;
-import meli.shows.entities.assembler.ShowAssembler;
 import meli.shows.entities.dto.FuncionDTO;
 import meli.shows.entities.dto.ShowDTO;
 

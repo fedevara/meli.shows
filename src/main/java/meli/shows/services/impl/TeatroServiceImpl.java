@@ -32,16 +32,6 @@ public class TeatroServiceImpl implements TeatroService {
     }
 
     @Override
-    public Teatro modificar(Teatro teatro) {
-        return null;
-    }
-
-    @Override
-    public void borrar(Long id) {
-
-    }
-
-    @Override
     public Optional<Teatro> getById(Long id) {
         return Optional.empty();
     }

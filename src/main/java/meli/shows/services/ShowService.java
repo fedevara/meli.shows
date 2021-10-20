@@ -13,10 +13,6 @@ public interface ShowService {
 
     FuncionButacasResponse getShowInfo(Long idFuncion, Long idShow);
 
-    Show modificar(Show teatro);
-
-    void borrar(Long id);
-
     Optional<Show> getById(Long id);
 
 }

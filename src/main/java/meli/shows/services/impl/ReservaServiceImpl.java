@@ -41,16 +41,6 @@ public class ReservaServiceImpl implements ReservaService {
     }
 
     @Override
-    public Reserva modificar(Reserva reserva) {
-        return null;
-    }
-
-    @Override
-    public void borrar(Long id) {
-
-    }
-
-    @Override
     public Optional<Reserva> getById(Long id) {
 
         return reservaRepository.findById(id);

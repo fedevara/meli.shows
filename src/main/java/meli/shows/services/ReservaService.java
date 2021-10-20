@@ -12,10 +12,6 @@ public interface ReservaService {
 
     List<ReservaDTO> getAll();
 
-    Reserva modificar(Reserva teatro);
-
-    void borrar(Long id);
-
     Optional<Reserva> getById(Long id);
 
 }

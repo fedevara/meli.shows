@@ -89,16 +89,6 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public Show modificar(Show show) {
-        return null;
-    }
-
-    @Override
-    public void borrar(Long id) {
-
-    }
-
-    @Override
     public Optional<Show> getById(Long id) {
 
         return showRepository.findById(id);

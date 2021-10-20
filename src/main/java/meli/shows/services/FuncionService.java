@@ -8,13 +8,7 @@ import java.util.Optional;
 
 public interface FuncionService {
 
-    FuncionDTO registrar(FuncionDTO funcion);
-
     List<FuncionDTO> getAll();
-
-    Funcion modificar(Funcion funcion);
-
-    void borrar(Long id);
 
     Optional<Funcion> getById(Long id);
 

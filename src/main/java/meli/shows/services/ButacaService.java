@@ -8,13 +8,7 @@ import java.util.Optional;
 
 public interface ButacaService {
 
-    ButacaDTO registrar(ButacaDTO butaca);
-
     List<ButacaDTO> getAll();
-
-    Butaca modificar(Butaca butaca);
-
-    void borrar(Long id);
 
     Optional<Butaca> getById(Long id);
 

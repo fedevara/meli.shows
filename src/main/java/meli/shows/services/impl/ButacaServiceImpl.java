@@ -19,15 +19,6 @@ public class ButacaServiceImpl implements ButacaService {
     ButacaRepository butacaRepository;
 
     @Override
-    public ButacaDTO registrar(ButacaDTO butaca) {
-        if(butaca != null){
-            Butaca butacaOk = butacaRepository.save(ButacaAssembler.assemble(butaca));
-            return ButacaAssembler.assemble(butacaOk);
-        }
-        return null;
-    }
-
-    @Override
     public List<ButacaDTO> getAll() {
 
         List<ButacaDTO> butacaResponse = new ArrayList<>();
@@ -37,16 +28,6 @@ public class ButacaServiceImpl implements ButacaService {
         }
 
         return butacaResponse;
-
-    }
-
-    @Override
-    public Butaca modificar(Butaca reserva) {
-        return null;
-    }
-
-    @Override
-    public void borrar(Long id) {
 
     }
 

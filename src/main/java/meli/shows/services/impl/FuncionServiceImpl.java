@@ -19,15 +19,6 @@ public class FuncionServiceImpl implements FuncionService {
     FuncionRepository funcionRepository;
 
     @Override
-    public FuncionDTO registrar(FuncionDTO funcion) {
-        if(funcion != null){
-            Funcion funcionOk = funcionRepository.save(FuncionAssembler.assemble(funcion));
-            return FuncionAssembler.assemble(funcionOk);
-        }
-        return null;
-    }
-
-    @Override
     public List<FuncionDTO> getAll() {
 
         List<FuncionDTO> funcionResponse = new ArrayList<>();
@@ -37,16 +28,6 @@ public class FuncionServiceImpl implements FuncionService {
         }
 
         return funcionResponse;
-
-    }
-
-    @Override
-    public Funcion modificar(Funcion funcion) {
-        return null;
-    }
-
-    @Override
-    public void borrar(Long id) {
 
     }
 
