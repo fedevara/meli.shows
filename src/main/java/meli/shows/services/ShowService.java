@@ -11,7 +11,7 @@ public interface ShowService {
 
     List<ShowDTO> getAll();
 
-    FuncionButacasResponse getShowInfo(Long idFuncion);
+    FuncionButacasResponse getShowInfo(Long idFuncion, Long idShow);
 
     Show modificar(Show teatro);
 

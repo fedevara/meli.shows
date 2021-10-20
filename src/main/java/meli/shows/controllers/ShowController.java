@@ -44,9 +44,9 @@ public class ShowController {
     }
 
     @GetMapping("/listar-butacas-disponibles")
-    public ResponseEntity<FuncionButacasResponse> getAll(@RequestParam(value="funcion_id") Long idFuncion) {
+    public ResponseEntity<FuncionButacasResponse> getAll(@RequestParam(value="funcion_id") Long idFuncion, @RequestParam(value="show_id") Long idShow) {
         logger.debug("Búsqueda del show: " + idFuncion + ", funcion: " + idFuncion);
-        FuncionButacasResponse funcionButacasResponse = showService.getShowInfo(idFuncion);
+        FuncionButacasResponse funcionButacasResponse = showService.getShowInfo(idFuncion, idShow);
         funcionButacasResponse.setButacas(butacaService.getButacasLibresFuncion(idFuncion));
         return ResponseEntity.ok(funcionButacasResponse);
     }
@@ -61,6 +61,8 @@ public class ShowController {
 
         reservaDto.setButaca(butacaDto);
         reservaDto.setFuncion(funcionDto);
+
+        reservaDto = reservaService.registrar(reservaDto);
 
         return new ResponseEntity<>(reservaDto, HttpStatus.CREATED);
 

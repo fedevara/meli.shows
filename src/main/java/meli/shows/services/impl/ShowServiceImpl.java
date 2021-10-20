@@ -5,10 +5,8 @@ import meli.shows.entities.Funcion;
 import meli.shows.entities.Show;
 import meli.shows.entities.assembler.FuncionAssembler;
 import meli.shows.entities.assembler.ShowAssembler;
-import meli.shows.entities.dto.FuncionDTO;
 import meli.shows.entities.dto.ShowDTO;
 import meli.shows.extra.Cache;
-import meli.shows.repository.ButacaRepository;
 import meli.shows.repository.FuncionRepository;
 import meli.shows.repository.ShowRepository;
 import meli.shows.services.ShowService;
@@ -24,10 +22,9 @@ public class ShowServiceImpl implements ShowService {
 
     @Autowired
     ShowRepository showRepository;
+
     @Autowired
     FuncionRepository funcionRepository;
-    @Autowired
-    ButacaRepository butacaRepository;
 
     Cache cache = Cache.getInstance();
 
@@ -55,10 +52,23 @@ public class ShowServiceImpl implements ShowService {
 
     }
 
+    private ShowDTO getShowById(Long idShow) {
+        ShowDTO show = null;
+        if (cache.isDataValid()) {
+            show = cache.getShow(idShow);
+        }
+        if (show == null) {
+            show = ShowAssembler.assemble(showRepository.getById(idShow));
+            cache.addShow(show);
+        }
+        return show;
+    }
+
     @Override
-    public FuncionButacasResponse getShowInfo(Long idFuncion) {
+    public FuncionButacasResponse getShowInfo(Long idFuncion, Long idShow) {
 
         Funcion funcion = null;
+        ShowDTO show = getShowById(idShow);
 
         if (cache.isDataValid()) {
             funcion = FuncionAssembler.assemble(cache.getFuncion(idFuncion));
@@ -69,10 +79,10 @@ public class ShowServiceImpl implements ShowService {
         }
 
         FuncionButacasResponse funButacaRes = new FuncionButacasResponse();
-        funButacaRes.setIdShow(funcion.getShow().getId());
-        funButacaRes.setNombre(funcion.getShow().getNombre());
-        funButacaRes.setCategoria(funcion.getShow().getCategoria());
-        funButacaRes.setDuracion(funcion.getShow().getDuracion());
+        funButacaRes.setIdShow(show.getId());
+        funButacaRes.setNombre(show.getNombre());
+        funButacaRes.setCategoria(show.getCategoria());
+        funButacaRes.setDuracion(show.getDuracion());
         funButacaRes.setDiaHorario(funcion.getDiaHorario());
 
         return funButacaRes;

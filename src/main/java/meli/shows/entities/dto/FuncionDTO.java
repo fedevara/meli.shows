@@ -13,4 +13,6 @@ public class FuncionDTO {
 
     private LocalDateTime diaHorario;
 
+    private Long idShow;
+
 }

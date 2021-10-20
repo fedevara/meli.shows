@@ -1,6 +1,8 @@
 package meli.shows.extra;
 
 import meli.shows.entities.Funcion;
+import meli.shows.entities.assembler.FuncionAssembler;
+import meli.shows.entities.assembler.ShowAssembler;
 import meli.shows.entities.dto.FuncionDTO;
 import meli.shows.entities.dto.ShowDTO;
 
@@ -14,8 +16,8 @@ import java.util.stream.Collectors;
 public class Cache {
 
     private static Date updateTime;
-    Map<Long, ShowDTO> showMap = new HashMap<>();
-    Map<Long, FuncionDTO> funcionMap = new HashMap<>();
+    private Map<Long, ShowDTO> showMap = new HashMap<>();
+    private Map<Long, FuncionDTO> funcionMap = new HashMap<>();
 
     private static Cache instance;
 
@@ -59,7 +61,11 @@ public class Cache {
         return funcionMap.get(idFuncion);
     }
 
-    public void addFuncion(FuncionDTO funcionDTO) {
-        funcionMap.put(funcionDTO.getId(), funcionDTO);
+    public ShowDTO getShow(Long idShow) {
+        return showMap.get(idShow);
+    }
+
+    public void addFuncion(FuncionDTO funcion) {
+        funcionMap.put(funcion.getId(), funcion);
     }
 }
