@@ -22,13 +22,9 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public ReservaDTO registrar(@NonNull ReservaDTO nuevaReserva) throws ReservaAlreadyExistException {
-//       if(nuevaReserva == null){
-//           return null;
-//       }
 
         long butacaId = nuevaReserva.getButaca().getId();
         long funcionId = nuevaReserva.getFuncion().getId();
-        String documento = nuevaReserva.getDocumento();
 
         Optional<Reserva> reservaOptional = reservaRepository.selectByButacaAndFuncion(butacaId, funcionId);
 
