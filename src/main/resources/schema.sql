@@ -22,7 +22,7 @@ CREATE TABLE Show (
 
 CREATE TABLE Seccion (
   idSeccion     INT AUTO_INCREMENT  PRIMARY KEY,
-  idShowFK      VARCHAR(250) NOT NULL,
+  idShowFK      INT NOT NULL,
   precio        INT NOT NULL,
   foreign key (idShowFK) references Show(idShow)
 );
