@@ -20,4 +20,5 @@ public class ShowDTO {
     private List<FuncionDTO> funciones;
 
     private List<SeccionDTO> secciones;
+
 }

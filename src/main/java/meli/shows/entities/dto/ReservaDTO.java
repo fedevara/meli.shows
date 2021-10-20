@@ -2,7 +2,6 @@ package meli.shows.entities.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import meli.shows.entities.Butaca;
 
 import java.math.BigDecimal;
 
@@ -10,9 +9,7 @@ import java.math.BigDecimal;
 @Setter
 public class ReservaDTO {
 
-    //PK COMBINADA ENTRE BUTACA Y FUNCION
-
-    private Long id;
+    private FuncionDTO funcion;
 
     private String nombre;
 

@@ -13,6 +13,8 @@ public class TeatroDTO {
 
     private String nombre;
 
+    private String direccion;
+
     private List<ShowDTO> shows;
 
     private List<SalaDTO> salas;
