@@ -4,8 +4,10 @@ import meli.shows.entities.Butaca;
 import meli.shows.entities.Seccion;
 import meli.shows.entities.dto.ButacaDTO;
 import meli.shows.entities.dto.SeccionDTO;
+import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -13,24 +15,49 @@ public class SeccionAssembler {
 
     public static SeccionDTO assemble(Seccion seccion) {
 
-        SeccionDTO seccionDTO = new SeccionDTO();
-        seccionDTO.setId(seccion.getId());
-        seccionDTO.setPrecio(seccion.getPrecio());
-        seccionDTO.setButacas(convertirButacas(seccion.getButacas()));
+        ModelMapper modelMapper = new ModelMapper();
+        SeccionDTO seccionDTO = modelMapper.map(seccion, SeccionDTO.class);
+
+        seccionDTO.setButacas(convertirButacasSetToList(seccion.getButacas()));
 
         return seccionDTO;
 
     }
 
-    private static List<ButacaDTO> convertirButacas(Set<Butaca> butacas) {
+    public static Seccion assemble(SeccionDTO seccionDto) {
 
-        List<ButacaDTO> butacalist = new ArrayList<>();
+        ModelMapper modelMapper = new ModelMapper();
+        Seccion seccion = modelMapper.map(seccionDto, Seccion.class);
 
-        for (Butaca butaca : butacas) {
-            butacalist.add(ButacaAssembler.assemble(butaca));
+        seccion.setButacas(convertirButacasListToSet(seccionDto.getButacas()));
+
+        return seccion;
+
+    }
+
+    private static List<ButacaDTO> convertirButacasSetToList(Set<Butaca> butacas) {
+
+        List<ButacaDTO> butacaList = new ArrayList<>();
+
+        if(butacas!=null) {
+            for (Butaca butaca : butacas) {
+                butacaList.add(ButacaAssembler.assemble(butaca));
+            }
         }
 
-        return butacalist;
+        return butacaList;
+
+    }
+
+    private static Set<Butaca> convertirButacasListToSet(List<ButacaDTO> butacas) {
+
+        Set<Butaca> butacaSet = new HashSet<>();
+
+        for (ButacaDTO butacaDto : butacas) {
+            butacaSet.add(ButacaAssembler.assemble(butacaDto));
+        }
+
+        return butacaSet;
 
     }
 

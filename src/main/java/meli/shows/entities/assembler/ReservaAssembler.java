@@ -1,19 +1,34 @@
 package meli.shows.entities.assembler;
 
+import meli.shows.controllers.request.ReservaRequest;
 import meli.shows.entities.Reserva;
-import meli.shows.entities.dto.ButacaDTO;
 import meli.shows.entities.dto.ReservaDTO;
+import org.modelmapper.ModelMapper;
 
 public class ReservaAssembler {
 
     public static ReservaDTO assemble(Reserva reserva) {
 
-        ReservaDTO reservaDTO = new ReservaDTO();
-        reservaDTO.setId(reserva.getId());
-        reservaDTO.setNombre(reserva.getNombre());
-        reservaDTO.setDocumento(reserva.getDocumento());
-        reservaDTO.setButaca(ButacaAssembler.assemble(reserva.getButaca()));
-        reservaDTO.setPrecio(reserva.getPrecio());
+        ModelMapper modelMapper = new ModelMapper();
+        ReservaDTO reservaDTO = modelMapper.map(reserva, ReservaDTO.class);
+
+        return reservaDTO;
+
+    }
+
+    public static Reserva assemble(ReservaDTO reservadTO) {
+
+        ModelMapper modelMapper = new ModelMapper();
+        Reserva reserva = modelMapper.map(reservadTO, Reserva.class);
+
+        return reserva;
+
+    }
+
+    public static ReservaDTO assemble(ReservaRequest reserva) {
+
+        ModelMapper modelMapper = new ModelMapper();
+        ReservaDTO reservaDTO = modelMapper.map(reserva, ReservaDTO.class);
 
         return reservaDTO;
 
