@@ -15,6 +15,7 @@ import meli.shows.services.ReservaService;
 import meli.shows.services.ShowService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,13 +56,13 @@ public class ShowController {
         logger.debug("Registrando nueva reserva");
 
         ButacaDTO butacaDto = ButacaAssembler.assemble(butacaService.getById(reservaReq.getButaca()).get());
-        FuncionDTO funcionDto = FuncionAssembler.assemble(funcionService.getById(reservaReq.getButaca()).get());
+        FuncionDTO funcionDto = FuncionAssembler.assemble(funcionService.getById(reservaReq.getFuncion()).get());
         ReservaDTO reservaDto = ReservaAssembler.assemble(reservaReq);
 
         reservaDto.setButaca(butacaDto);
         reservaDto.setFuncion(funcionDto);
 
-        return ResponseEntity.ok(reservaService.registrar(reservaDto));
+        return new ResponseEntity<>(reservaDto, HttpStatus.CREATED);
 
     }
 
