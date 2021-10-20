@@ -19,6 +19,8 @@ public class Teatro {
 
     private String nombre;
 
+    private String direccion;
+
     @OneToMany(mappedBy = "teatro", cascade = CascadeType.ALL)
     private Set<Show> shows;
 

@@ -8,24 +8,24 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name="Reserva")
+@IdClass(ReservaPK.class)
 @Getter
 @Setter
 public class Reserva {
 
-    //PK COMBINADA ENTRE BUTACA Y FUNCION
+    @Id
+    @ManyToOne
+    @JoinColumn(name="idButacaFK", referencedColumnName = "idButaca")
+    private Butaca butaca;
 
     @Id
-    @Column(name="idReserva")
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+    @ManyToOne
+    @JoinColumn(name="idFuncionFK", referencedColumnName = "idFuncion")
+    private Funcion funcion;
 
     private String nombre;
 
     private String documento;
-
-    @OneToOne
-    @JoinColumn(name="idButacaFK", referencedColumnName = "idButaca")
-    private Butaca butaca;
 
     private BigDecimal precio;
 

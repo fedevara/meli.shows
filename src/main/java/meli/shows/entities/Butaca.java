@@ -1,5 +1,6 @@
 package meli.shows.entities;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +17,10 @@ public class Butaca {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private Integer fila;
 
+    @NotNull
     private Integer posicion;
 
     @ManyToOne
