@@ -42,14 +42,12 @@ public class ShowCustomRepositoryImpl implements ShowCustomRepository {
 
         boolean queryFiltered;
 
-        if (isValidField(fechaInicio) || isValidField(fechaFin)) {
-            sb.append(" INNER JOIN Funcion F");
-            sb.append(" ON F.show = S.id");
-        }
-        if (isValidField(precioMinimo) || isValidField(precioMaximo)) {
-            sb.append(" INNER JOIN Seccion SE");
-            sb.append(" ON SE.show = S.id");
-        }
+        sb.append(" INNER JOIN Funcion F");
+        sb.append(" ON F.show = S.id");
+
+        sb.append(" INNER JOIN Seccion SE");
+        sb.append(" ON SE.show = S.id");
+
         queryFiltered = filterShow(nombre, categoria, sb);
 
         queryFiltered = filterFuncion(fechaInicio, fechaFin, queryFiltered, sb);
@@ -122,16 +120,25 @@ public class ShowCustomRepositoryImpl implements ShowCustomRepository {
     /**
      * Aplica order by a la consulta
      *
-     * @param orden     columna por la cual se aplicara el orden
+     * @param orden     Columna por la cual se aplicara el orden.
+     *                  Posibles valores: nombre, categoria, precio, fecha
      * @param direccion 0 si es Ascendente, 1 si es Descendente
      * @param sb        la query
      */
     private void orderResult(String orden, String direccion, StringBuilder sb) {
 
-        if (direccion!= null && direccion.equals("0") || direccion.equals("1")) {
+        if (direccion != null && direccion.equals("0") || direccion.equals("1")) {
 
             if (isValidField(orden)) {
-                sb.append(" ORDER BY S.").append(orden);
+                if (orden.equals("nombre") || orden.equals("categoria")) {
+                    sb.append(" ORDER BY S.").append(orden);
+                }
+                if (orden.equals("precio")) {
+                    sb.append(" ORDER BY SE.").append(orden);
+                }
+                if (orden.equals("fecha")) {
+                    sb.append(" ORDER BY F.diaHorario");
+                }
                 if (direccion.equals("0")) {
                     sb.append(" ASC");
                 } else {
@@ -161,6 +168,7 @@ public class ShowCustomRepositoryImpl implements ShowCustomRepository {
 
     /**
      * Comprueba que la columna seleccionada sea valida
+     *
      * @param field columna a comprobar
      * @return true si es valido, false si no es valido
      */
