@@ -10,6 +10,8 @@ import meli.shows.entities.dto.ButacaDTO;
 import meli.shows.entities.dto.FuncionDTO;
 import meli.shows.entities.dto.ReservaDTO;
 import meli.shows.entities.dto.ShowDTO;
+import meli.shows.entities.exception.RangoFechaException;
+import meli.shows.entities.exception.RangoPrecioException;
 import meli.shows.entities.exception.ReservaAlreadyExistException;
 import meli.shows.services.ButacaService;
 import meli.shows.services.FuncionService;
@@ -22,7 +24,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Min;
+import javax.validation.constraints.PositiveOrZero;
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -49,16 +52,34 @@ public class ShowController {
     }
 
     @GetMapping("/busqueda-avanzada-shows")
-    public ResponseEntity<List<ShowDTO>> getAdvancedAll(@RequestParam(value = "nombre") String nombre,
-                                                        @RequestParam(value = "categoria") String categoria,
-                                                        @RequestParam(value = "fechaInicio") @DateTimeFormat(pattern = FORMAT_DATE) String fechaInicio,
-                                                        @RequestParam(value = "fechaFin") @DateTimeFormat(pattern = FORMAT_DATE) String fechaFin,
-                                                        @RequestParam(value = "precioMinimo") @Min(0) Double precioMinimo,
-                                                        @RequestParam(value = "precioMaximo") @Min(0) Double precioMaximo,
-                                                        @RequestParam(value = "orden") String orden,
-                                                        @RequestParam(value = "direccion") String direccion) {
+    public ResponseEntity<Object> getAdvancedAll(@RequestParam(required = false, value = "nombre") String nombre,
+                                                 @RequestParam(required = false, value = "categoria") String categoria,
+                                                 @RequestParam(required = false, value = "fechaInicio") @DateTimeFormat(pattern = FORMAT_DATE) String fechaInicio,
+                                                 @RequestParam(required = false, value = "fechaFin") @DateTimeFormat(pattern = FORMAT_DATE) String fechaFin,
+                                                 @RequestParam(required = false, value = "precioMinimo") @PositiveOrZero Double precioMinimo,
+                                                 @RequestParam(required = false, value = "precioMaximo") @PositiveOrZero Double precioMaximo,
+                                                 @RequestParam(required = false, value = "orden") String orden,
+                                                 @RequestParam(required = false, value = "direccion") String direccion) {
         logger.debug("Búsqueda de todos los Shows");
-        AdvanceSearchRequest request = new AdvanceSearchRequest(nombre, categoria, fechaInicio, fechaFin, orden, direccion, precioMinimo.toString(), precioMaximo.toString());
+        try {
+            //TODO este manejo de errores deberia estar en una clase Handler
+            if (fechaFin != null && fechaInicio != null && !fechaFin.isEmpty() && !fechaInicio.isEmpty()) {
+                if (Date.valueOf(fechaFin).compareTo(Date.valueOf(fechaInicio)) < 0) {
+                    throw new RangoFechaException();
+                }
+            }
+            if (precioMaximo != null && precioMinimo != null) {
+                if (Double.valueOf(precioMaximo).compareTo(Double.valueOf(precioMinimo)) < 0) {
+                    throw new RangoPrecioException();
+                }
+            }
+        } catch (RangoFechaException e) {
+            return new ResponseEntity<>(e.getCustomMessage(), HttpStatus.BAD_REQUEST);
+        } catch (RangoPrecioException e) {
+            return new ResponseEntity<>(e.getCustomMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        AdvanceSearchRequest request = new AdvanceSearchRequest(nombre, categoria, fechaInicio, fechaFin, orden, direccion, precioMinimo, precioMaximo);
         return ResponseEntity.ok(showService.getAdvancedAll(request));
     }
 

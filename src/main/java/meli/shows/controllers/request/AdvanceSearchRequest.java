@@ -17,7 +17,7 @@ public class AdvanceSearchRequest {
     private String fechaFin;
     private String orden;
     private String direccion;
-    private String precioMinimo;
-    private String precioMaximo;
+    private Double precioMinimo;
+    private Double precioMaximo;
 
 }

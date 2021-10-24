@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ShowCustomRepositoryImpl implements ShowCustomRepository {
 
@@ -19,13 +20,34 @@ public class ShowCustomRepositoryImpl implements ShowCustomRepository {
 
         StringBuilder sb = new StringBuilder("SELECT S FROM Show S");
 
+        filterJoin(request, sb);
+
         filterQuery(request.getNombre(), request.getCategoria(), request.getFechaInicio(), request.getFechaFin(), request.getPrecioMinimo(), request.getPrecioMaximo(), sb);
 
         orderResult(request.getOrden(), request.getDireccion(), sb);
 
         TypedQuery<Show> query = entityManager.createQuery(sb.toString(), Show.class);
 
-        return query.getResultList();
+        return (query.getResultList()).stream().distinct().collect(Collectors.toList());
+    }
+
+    /**
+     *
+     * @param request
+     * @param sb
+     */
+    private void filterJoin(AdvanceSearchRequest request, StringBuilder sb) {
+
+        if (request.getFechaFin() != null || request.getFechaInicio() != null || request.getOrden() != null && request.getOrden().equals("fecha")) {
+            sb.append(" INNER JOIN Funcion F");
+            sb.append(" ON F.show = S.id");
+        }
+
+        if (request.getPrecioMinimo() != null || request.getPrecioMaximo() != null || request.getOrden() != null && request.getOrden().equals("precio")) {
+            sb.append(" INNER JOIN Seccion SE");
+            sb.append(" ON SE.show = S.id");
+        }
+
     }
 
     /**
@@ -39,17 +61,9 @@ public class ShowCustomRepositoryImpl implements ShowCustomRepository {
      * @param precioMaximo precio maximo de la Butaca
      * @param sb           la query
      */
-    private void filterQuery(String nombre, String categoria, String fechaInicio, String fechaFin, String precioMinimo, String precioMaximo, StringBuilder sb) {
+    private void filterQuery(String nombre, String categoria, String fechaInicio, String fechaFin, Double precioMinimo, Double precioMaximo, StringBuilder sb) {
 
-        boolean queryFiltered;
-
-        sb.append(" INNER JOIN Funcion F");
-        sb.append(" ON F.show = S.id");
-
-        sb.append(" INNER JOIN Seccion SE");
-        sb.append(" ON SE.show = S.id");
-
-        queryFiltered = filterShow(nombre, categoria, sb);
+        boolean queryFiltered = filterShow(nombre, categoria, sb);
 
         queryFiltered = filterFuncion(fechaInicio, fechaFin, queryFiltered, sb);
 
@@ -107,14 +121,14 @@ public class ShowCustomRepositoryImpl implements ShowCustomRepository {
      * @param queryFiltered indica si ya se aplico algun filtro
      * @param sb            la query
      */
-    private void filterSeccion(String precioMinimo, String precioMaximo, boolean queryFiltered, StringBuilder sb) {
-        if (isValidField(precioMinimo)) {
+    private void filterSeccion(Double precioMinimo, Double precioMaximo, boolean queryFiltered, StringBuilder sb) {
+        if (precioMinimo != null) {
             queryFiltered = isQueryFiltered(queryFiltered, sb);
-            sb.append(" SE.precio >= ").append(precioMinimo);
+            sb.append(" SE.precio >= ").append(precioMinimo.toString());
         }
-        if (isValidField(precioMaximo)) {
+        if (precioMaximo != null) {
             isQueryFiltered(queryFiltered, sb);
-            sb.append(" SE.precio <= ").append(precioMaximo);
+            sb.append(" SE.precio <= ").append(precioMaximo.toString());
         }
     }
 
