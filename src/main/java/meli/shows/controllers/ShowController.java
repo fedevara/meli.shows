@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -45,13 +46,21 @@ public class ShowController {
     }
 
     @GetMapping("/busqueda-avanzada-shows")
-    public ResponseEntity<List<ShowDTO>> getAdvancedAll() {
+    public ResponseEntity<List<ShowDTO>> getAdvancedAll(@RequestParam(value = "nombre") String nombre,
+                                                        @RequestParam(value = "categoria") String categoria,
+                                                        @RequestParam(value = "fechaInicio") String fechaInicio,
+                                                        @RequestParam(value = "fechaFin") String fechaFin,
+                                                        @RequestParam(value = "precioMinimo") String precioMinimo,
+                                                        @RequestParam(value = "precioMaximo") String precioMaximo,
+                                                        @RequestParam(value = "orden") String orden,
+                                                        @RequestParam(value = "direccion") String direccion) {
         logger.debug("Búsqueda de todos los Shows");
-        return ResponseEntity.ok(showService.getAll());
+        return ResponseEntity.ok(showService.getAdvancedAll(nombre, categoria, fechaInicio, fechaFin, orden, direccion, precioMinimo, precioMaximo));
     }
 
     @GetMapping("/listar-butacas-disponibles")
-    public ResponseEntity<FuncionButacasResponse> getAll(@RequestParam(value = "funcion_id") Long idFuncion, @RequestParam(value = "show_id") Long idShow) {
+    public ResponseEntity<FuncionButacasResponse> getAll(@RequestParam(value = "funcion_id") Long idFuncion,
+                                                         @RequestParam(value = "show_id") Long idShow) {
         logger.debug("Búsqueda del show: " + idFuncion + ", funcion: " + idFuncion);
         FuncionButacasResponse funcionButacasResponse = showService.getShowInfo(idFuncion, idShow);
         funcionButacasResponse.setButacas(butacaService.getButacasLibresFuncion(idFuncion));

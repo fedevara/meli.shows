@@ -13,6 +13,7 @@ import meli.shows.services.ShowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,45 +23,31 @@ public class ShowServiceImpl implements ShowService {
 
     @Autowired
     ShowRepository showRepository;
-
     @Autowired
     FuncionRepository funcionRepository;
 
     Cache cache = Cache.getInstance();
 
-
     @Override
     public List<ShowDTO> getAll() {
-
         List<ShowDTO> showResponse = new ArrayList<>();
-
         if (cache.isDataValid()) {
-
             showResponse = cache.getAllShows();
-
         } else {
-
             for (Show show : showRepository.findAll()) {
                 ShowDTO showDTO = ShowAssembler.assemble(show);
                 cache.addShow(showDTO);
                 showResponse.add(showDTO);
             }
-
         }
-
         return showResponse;
-
     }
 
     @Override
     public FuncionButacasResponse getShowInfo(Long idFuncion, Long idShow) {
-
         Funcion funcion = getFuncion(idFuncion);
-        ;
         ShowDTO show = getShowById(idShow);
-
         FuncionButacasResponse funButacaRes = fillFuncionButacaResponse(funcion, show);
-
         return funButacaRes;
     }
 
@@ -100,8 +87,23 @@ public class ShowServiceImpl implements ShowService {
 
     @Override
     public Optional<Show> getById(Long id) {
-
         return showRepository.findById(id);
+    }
+
+    @Override
+    public List<ShowDTO> getAdvancedAll(String nombre, String categoria, String fechaInicio, String fechaFin, String orden, String direccion, String precioMinimo, String precioMaximo) {
+
+        List<ShowDTO> showResponse = new ArrayList<>();/*
+        if (cache.isDataValid()) {
+            showResponse = cache.getAllShows();
+        } else {*/
+            for (Show show : showRepository.findAdvancedAll(nombre, categoria, fechaInicio, fechaFin, orden, direccion, precioMinimo, precioMaximo)) {
+                ShowDTO showDTO = ShowAssembler.assemble(show);
+                cache.addShow(showDTO);
+                showResponse.add(showDTO);
+            }
+        //}
+        return showResponse;
 
     }
 }
