@@ -1,8 +1,11 @@
 package meli.shows.entities;
 
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
@@ -10,6 +13,8 @@ import javax.persistence.*;
 @Table(name = "Butaca")
 @Getter
 @Setter
+@Accessors(chain = true)
+@EqualsAndHashCode
 public class Butaca {
 
     @Id

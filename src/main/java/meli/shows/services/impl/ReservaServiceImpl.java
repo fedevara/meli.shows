@@ -20,6 +20,7 @@ public class ReservaServiceImpl implements ReservaService {
     @Autowired
     ReservaRepository reservaRepository;
 
+    // TODO crear una reserva ok, crear una reserva que ya este reservada y dar error,
     @Override
     public ReservaDTO registrar(@NonNull ReservaDTO nuevaReserva) throws ReservaAlreadyExistException {
 
@@ -56,8 +57,6 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public Optional<Reserva> getById(Long id) {
-
         return reservaRepository.findById(id);
-
     }
 }

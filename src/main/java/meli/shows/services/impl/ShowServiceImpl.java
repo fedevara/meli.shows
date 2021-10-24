@@ -74,6 +74,7 @@ public class ShowServiceImpl implements ShowService {
         return show;
     }
 
+    //TODO solo testear metodo publicos
     private FuncionButacasResponse fillFuncionButacaResponse(Funcion funcion, ShowDTO show) {
         FuncionButacasResponse funButacaRes = new FuncionButacasResponse();
         funButacaRes.setIdShow(show.getId());
