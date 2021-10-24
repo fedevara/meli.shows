@@ -9,29 +9,29 @@ public class ReservaAssembler {
 
     public static ReservaDTO assemble(Reserva reserva) {
 
-        ModelMapper modelMapper = new ModelMapper();
-        ReservaDTO reservaDTO = modelMapper.map(reserva, ReservaDTO.class);
-
-        return reservaDTO;
-
+        if (reserva != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            return modelMapper.map(reserva, ReservaDTO.class);
+        }
+        return null;
     }
 
     public static Reserva assemble(ReservaDTO reservadTO) {
 
-        ModelMapper modelMapper = new ModelMapper();
-        Reserva reserva = modelMapper.map(reservadTO, Reserva.class);
-
-        return reserva;
-
+        if (reservadTO != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            return modelMapper.map(reservadTO, Reserva.class);
+        }
+        return null;
     }
 
     public static ReservaDTO assemble(ReservaRequest reserva) {
 
-        ModelMapper modelMapper = new ModelMapper();
-        ReservaDTO reservaDTO = modelMapper.map(reserva, ReservaDTO.class);
-
-        return reservaDTO;
-
+        if (reserva != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            return modelMapper.map(reserva, ReservaDTO.class);
+        }
+        return null;
     }
 
 }

@@ -1,5 +1,6 @@
 package meli.shows.repository.impl;
 
+import meli.shows.controllers.request.AdvanceSearchRequest;
 import meli.shows.entities.Show;
 import meli.shows.repository.ShowCustomRepository;
 
@@ -14,13 +15,13 @@ public class ShowCustomRepositoryImpl implements ShowCustomRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Show> findAdvancedAll(String nombre, String categoria, String fechaInicio, String fechaFin, String orden, String direccion, String precioMinimo, String precioMaximo) {
+    public List<Show> findAdvancedAll(AdvanceSearchRequest request) {
 
         StringBuilder sb = new StringBuilder("SELECT S FROM Show S");
 
-        filterQuery(nombre, categoria, fechaInicio, fechaFin, precioMinimo, precioMaximo, sb);
+        filterQuery(request.getNombre(), request.getCategoria(), request.getFechaInicio(), request.getFechaFin(), request.getPrecioMinimo(), request.getPrecioMaximo(), sb);
 
-        orderResult(orden, direccion, sb);
+        orderResult(request.getOrden(), request.getDireccion(), sb);
 
         TypedQuery<Show> query = entityManager.createQuery(sb.toString(), Show.class);
 
@@ -127,7 +128,7 @@ public class ShowCustomRepositoryImpl implements ShowCustomRepository {
      */
     private void orderResult(String orden, String direccion, StringBuilder sb) {
 
-        if (direccion != null && direccion.equals("0") || direccion.equals("1")) {
+        if (("0").equals(direccion) || ("1").equals(direccion)) {
 
             if (isValidField(orden)) {
                 if (orden.equals("nombre") || orden.equals("categoria")) {

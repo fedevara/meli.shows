@@ -17,82 +17,78 @@ public class SalaAssembler {
 
     public static SalaDTO assemble(Sala sala) {
 
-        ModelMapper modelMapper = new ModelMapper();
-        SalaDTO salaDTO = modelMapper.map(sala, SalaDTO.class);
+        if (sala != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            SalaDTO salaDTO = modelMapper.map(sala, SalaDTO.class);
 
-        salaDTO.setFunciones(convertirFuncionesSetToList(sala.getFunciones()));
-        salaDTO.setButacas(convertirButacasSetToList(sala.getButacas()));
+            salaDTO.setFunciones(convertirFuncionesSetToList(sala.getFunciones()));
+            salaDTO.setButacas(convertirButacasSetToList(sala.getButacas()));
 
-        return salaDTO;
-
+            return salaDTO;
+        }
+        return null;
     }
 
     public static Sala assemble(SalaDTO salaDto) {
 
-        ModelMapper modelMapper = new ModelMapper();
-        Sala sala = modelMapper.map(salaDto, Sala.class);
+        if (salaDto != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            Sala sala = modelMapper.map(salaDto, Sala.class);
 
-        sala.setFunciones(convertirFuncionesListToSet(salaDto.getFunciones()));
-        sala.setButacas(convertirButacasListToSet(salaDto.getButacas()));
+            sala.setFunciones(convertirFuncionesListToSet(salaDto.getFunciones()));
+            sala.setButacas(convertirButacasListToSet(salaDto.getButacas()));
 
-        return sala;
-
+            return sala;
+        }
+        return null;
     }
 
     private static List<FuncionDTO> convertirFuncionesSetToList(Set<Funcion> funciones) {
 
         List<FuncionDTO> funcionlist = new ArrayList<>();
 
-        if (funciones != null) {
+        if (funciones != null && !funciones.isEmpty()) {
             for (Funcion funcion : funciones) {
                 funcionlist.add(FuncionAssembler.assemble(funcion));
             }
         }
-
         return funcionlist;
-
     }
 
     private static Set<Funcion> convertirFuncionesListToSet(List<FuncionDTO> funciones) {
 
         Set<Funcion> funcionlist = new HashSet<>();
 
-        if (funciones != null) {
+        if (funciones != null && !funciones.isEmpty()) {
             for (FuncionDTO funcionDto : funciones) {
                 funcionlist.add(FuncionAssembler.assemble(funcionDto));
             }
         }
-
         return funcionlist;
-
     }
 
     private static List<ButacaDTO> convertirButacasSetToList(Set<Butaca> butacas) {
 
         List<ButacaDTO> butacalist = new ArrayList<>();
 
-        if (butacas != null) {
+        if (butacas != null && !butacas.isEmpty()) {
             for (Butaca butaca : butacas) {
                 butacalist.add(ButacaAssembler.assemble(butaca));
             }
         }
-
         return butacalist;
-
     }
 
     private static Set<Butaca> convertirButacasListToSet(List<ButacaDTO> butacas) {
 
         Set<Butaca> butacaSet = new HashSet<>();
 
-        if (butacas != null) {
+        if (butacas != null && !butacas.isEmpty()) {
             for (ButacaDTO butacaDto : butacas) {
                 butacaSet.add(ButacaAssembler.assemble(butacaDto));
             }
         }
-
         return butacaSet;
-
     }
 
 }

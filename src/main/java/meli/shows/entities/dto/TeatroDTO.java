@@ -10,13 +10,9 @@ import java.util.List;
 public class TeatroDTO {
 
     private Long id;
-
     private String nombre;
-
     private String direccion;
-
     private List<ShowDTO> shows;
-
     private List<SalaDTO> salas;
 
 }

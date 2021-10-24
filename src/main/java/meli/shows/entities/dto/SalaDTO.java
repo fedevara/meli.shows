@@ -12,9 +12,7 @@ import java.util.List;
 public class SalaDTO {
 
     private Long id;
-
     private List<ButacaDTO> butacas;
-
     private List<FuncionDTO> funciones;
 
 }

@@ -1,5 +1,6 @@
 package meli.shows.services.impl;
 
+import meli.shows.controllers.request.AdvanceSearchRequest;
 import meli.shows.controllers.response.FuncionButacasResponse;
 import meli.shows.entities.Funcion;
 import meli.shows.entities.Show;
@@ -13,7 +14,6 @@ import meli.shows.services.ShowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,8 +47,7 @@ public class ShowServiceImpl implements ShowService {
     public FuncionButacasResponse getShowInfo(Long idFuncion, Long idShow) {
         Funcion funcion = getFuncion(idFuncion);
         ShowDTO show = getShowById(idShow);
-        FuncionButacasResponse funButacaRes = fillFuncionButacaResponse(funcion, show);
-        return funButacaRes;
+        return fillFuncionButacaResponse(funcion, show);
     }
 
     private Funcion getFuncion(Long idFuncion) {
@@ -91,18 +90,22 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public List<ShowDTO> getAdvancedAll(String nombre, String categoria, String fechaInicio, String fechaFin, String orden, String direccion, String precioMinimo, String precioMaximo) {
+    public List<ShowDTO> getAdvancedAll(AdvanceSearchRequest request) {
 
-        List<ShowDTO> showResponse = new ArrayList<>();/*
+        List<ShowDTO> showResponse = null;
+
         if (cache.isDataValid()) {
-            showResponse = cache.getAllShows();
-        } else {*/
-            for (Show show : showRepository.findAdvancedAll(nombre, categoria, fechaInicio, fechaFin, orden, direccion, precioMinimo, precioMaximo)) {
+            showResponse = cache.getAdvancedAll(request);
+        }
+        if (showResponse == null) {
+            showResponse = new ArrayList<>();
+            for (Show show : showRepository.findAdvancedAll(request)) {
                 ShowDTO showDTO = ShowAssembler.assemble(show);
                 cache.addShow(showDTO);
                 showResponse.add(showDTO);
             }
-        //}
+            cache.addRequest(request, showResponse);
+        }
         return showResponse;
 
     }

@@ -19,82 +19,78 @@ public class TeatroAssembler {
 
     public static TeatroDTO assemble(Teatro teatro) {
 
-        ModelMapper modelMapper = new ModelMapper();
-        TeatroDTO teatroDto = modelMapper.map(teatro, TeatroDTO.class);
+        if (teatro != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            TeatroDTO teatroDto = modelMapper.map(teatro, TeatroDTO.class);
 
-        teatroDto.setSalas(convertirSalaSetToList(teatro.getSalas()));
-        teatroDto.setShows(convertirShowSetToList(teatro.getShows()));
+            teatroDto.setSalas(convertirSalaSetToList(teatro.getSalas()));
+            teatroDto.setShows(convertirShowSetToList(teatro.getShows()));
 
-        return teatroDto;
-
+            return teatroDto;
+        }
+        return null;
     }
 
     public static Teatro assemble(TeatroDTO teatroDto) {
 
-        ModelMapper modelMapper = new ModelMapper();
-        Teatro teatro = modelMapper.map(teatroDto, Teatro.class);
+        if (teatroDto != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            Teatro teatro = modelMapper.map(teatroDto, Teatro.class);
 
-        teatro.setSalas(convertirSalaListToSet(teatroDto.getSalas()));
-        teatro.setShows(convertirShowListToSet(teatroDto.getShows()));
+            teatro.setSalas(convertirSalaListToSet(teatroDto.getSalas()));
+            teatro.setShows(convertirShowListToSet(teatroDto.getShows()));
 
-        return teatro;
-
+            return teatro;
+        }
+        return null;
     }
 
     private static List<ShowDTO> convertirShowSetToList(Set<Show> shows) {
 
         List<ShowDTO> showlist = new ArrayList<>();
 
-        if (shows != null) {
+        if (shows != null && !shows.isEmpty()) {
             for (Show show : shows) {
                 showlist.add(ShowAssembler.assemble(show));
             }
         }
-
         return showlist;
-
     }
 
     private static Set<Show> convertirShowListToSet(List<ShowDTO> shows) {
 
         Set<Show> showSet = new HashSet<>();
 
-        if (shows != null) {
+        if (shows != null && !shows.isEmpty()) {
             for (ShowDTO showDto : shows) {
                 showSet.add(ShowAssembler.assemble(showDto));
             }
         }
-
         return showSet;
-
     }
 
     private static List<SalaDTO> convertirSalaSetToList(Set<Sala> salas) {
 
         List<SalaDTO> salalist = new ArrayList<>();
 
-        if (salas != null) {
+        if (salas != null && !salas.isEmpty()) {
             for (Sala sala : salas) {
                 salalist.add(SalaAssembler.assemble(sala));
             }
         }
-
         return salalist;
-
     }
 
     private static Set<Sala> convertirSalaListToSet(List<SalaDTO> salas) {
 
         Set<Sala> salaSet = new HashSet<>();
 
-        if (salas != null) {
+        if (salas != null && !salas.isEmpty()) {
             for (SalaDTO salaDto : salas) {
                 salaSet.add(SalaAssembler.assemble(salaDto));
             }
         }
-
         return salaSet;
-
     }
 
 }

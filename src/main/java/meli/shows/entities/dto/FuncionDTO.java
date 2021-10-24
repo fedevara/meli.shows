@@ -10,9 +10,7 @@ import java.time.LocalDateTime;
 public class FuncionDTO {
 
     private Long id;
-
     private LocalDateTime diaHorario;
-
     private Long idShow;
 
 }

@@ -10,15 +10,10 @@ import java.util.List;
 public class ShowDTO {
 
     private Long id;
-
     private String nombre;
-
     private String categoria;
-
     private Integer duracion;
-
     private List<FuncionDTO> funciones;
-
     private List<SeccionDTO> secciones;
 
 }

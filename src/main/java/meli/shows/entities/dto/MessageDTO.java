@@ -8,5 +8,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class MessageDTO {
+
     private String message;
+
 }

@@ -1,20 +1,18 @@
 package meli.shows.extra;
 
+import meli.shows.controllers.request.AdvanceSearchRequest;
 import meli.shows.entities.dto.FuncionDTO;
 import meli.shows.entities.dto.ShowDTO;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class Cache {
 
     private static Date updateTime;
-    private Map<Long, ShowDTO> showMap = new HashMap<>();
-    private Map<Long, FuncionDTO> funcionMap = new HashMap<>();
+    private final Map<Long, ShowDTO> showMap = new HashMap<>();
+    private final Map<Long, FuncionDTO> funcionMap = new HashMap<>();
+    private final Map<AdvanceSearchRequest, List<ShowDTO>> advanceSearchRequest = createRequestMap(100);
 
     private static Cache instance;
 
@@ -46,12 +44,27 @@ public class Cache {
 
     }
 
+    /**
+     * Map usado como cache de Request de Busqueda avanzada de Shows
+     *
+     * @param maxEntries tamaño maximo del mapa
+     * @return mapa creado
+     */
+    public static <K, V> Map<K, V> createRequestMap(final int maxEntries) {
+        return new LinkedHashMap<K, V>(maxEntries * 10 / 7, 0.7f, true) {
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+                return size() > maxEntries;
+            }
+        };
+    }
+
     public void addShow(ShowDTO showDTO) {
         showMap.put(showDTO.getId(), showDTO);
     }
 
     public List<ShowDTO> getAllShows() {
-        return showMap.values().stream().collect(Collectors.toList());
+        return new ArrayList<>(showMap.values());
     }
 
     public FuncionDTO getFuncion(Long idFuncion) {
@@ -65,4 +78,13 @@ public class Cache {
     public void addFuncion(FuncionDTO funcion) {
         funcionMap.put(funcion.getId(), funcion);
     }
+
+    public List<ShowDTO> getAdvancedAll(AdvanceSearchRequest request) {
+        return advanceSearchRequest.get(request);
+    }
+
+    public void addRequest(AdvanceSearchRequest request, List<ShowDTO> listDto) {
+        advanceSearchRequest.put(request, listDto);
+    }
+
 }

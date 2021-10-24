@@ -8,19 +8,20 @@ public class ButacaAssembler {
 
     public static ButacaDTO assemble(Butaca butaca) {
 
-        ModelMapper modelMapper = new ModelMapper();
-
-        return modelMapper.map(butaca, ButacaDTO.class);
-
+        if (butaca != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            return modelMapper.map(butaca, ButacaDTO.class);
+        }
+        return null;
     }
 
     public static Butaca assemble(ButacaDTO butacaDto) {
 
-        ModelMapper modelMapper = new ModelMapper();
-
-        return modelMapper.map(butacaDto, Butaca.class);
-
+        if (butacaDto != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            return modelMapper.map(butacaDto, Butaca.class);
+        }
+        return null;
     }
-
 
 }

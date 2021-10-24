@@ -11,9 +11,7 @@ import java.util.List;
 public class SeccionDTO {
 
     private Long id;
-
     private BigDecimal precio;
-
     private List<ButacaDTO> butacas;
 
 }

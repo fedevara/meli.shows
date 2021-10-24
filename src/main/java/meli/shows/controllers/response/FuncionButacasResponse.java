@@ -12,15 +12,10 @@ import java.util.List;
 public class FuncionButacasResponse {
 
     private Long idShow;
-
     private String nombre;
-
     private String categoria;
-
     private int duracion;
-
     private LocalDateTime diaHorario;
-
     private List<ButacaDTO> butacas;
 
 }

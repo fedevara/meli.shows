@@ -8,9 +8,7 @@ import lombok.Setter;
 public class ButacaDTO {
 
     private Long id;
-
     private Integer fila;
-
     private Integer posicion;
 
 }
