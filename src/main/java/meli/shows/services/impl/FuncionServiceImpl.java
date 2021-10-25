@@ -16,8 +16,7 @@ import java.util.Optional;
 @Service
 public class FuncionServiceImpl implements FuncionService {
 
-    @Autowired
-    FuncionRepository funcionRepository;
+    private final FuncionRepository funcionRepository;
 
     @Autowired
     public FuncionServiceImpl(FuncionRepository funcionRepository) {

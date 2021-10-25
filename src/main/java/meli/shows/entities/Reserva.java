@@ -1,7 +1,9 @@
 package meli.shows.entities;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,6 +13,8 @@ import java.math.BigDecimal;
 @IdClass(ReservaPK.class)
 @Getter
 @Setter
+@Accessors(chain = true)
+@EqualsAndHashCode
 public class Reserva {
 
     @Id

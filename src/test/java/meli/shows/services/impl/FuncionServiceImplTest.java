@@ -36,7 +36,6 @@ class FuncionServiceImplTest {
     void getAll() {
 
         Mockito.when(funcionRepository.findAll()).thenReturn(funcionList);
-
         Assertions.assertEquals(funcionService.getAll().size(), 5);
 
     }
@@ -45,7 +44,6 @@ class FuncionServiceImplTest {
     void getById() {
 
         Mockito.when(funcionRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(funcion));
-
         Assertions.assertEquals(funcionService.getById(1L).get(), funcion);
 
     }

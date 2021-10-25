@@ -34,7 +34,6 @@ class ButacaServiceImplTest {
     void getAll() {
 
         Mockito.when(butacaRepository.findAll()).thenReturn(butacaList);
-
         Assertions.assertEquals(butacaService.getAll().size(), 10);
 
     }
@@ -43,7 +42,6 @@ class ButacaServiceImplTest {
     void getById() {
 
         Mockito.when(butacaRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(butaca));
-
         Assertions.assertEquals(butacaService.getById(1L).get(), butaca);
 
     }

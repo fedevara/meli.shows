@@ -17,8 +17,12 @@ import java.util.Optional;
 @Service
 public class ReservaServiceImpl implements ReservaService {
 
+    private final ReservaRepository reservaRepository;
+
     @Autowired
-    ReservaRepository reservaRepository;
+    public ReservaServiceImpl(ReservaRepository reservaRepository) {
+        this.reservaRepository = reservaRepository;
+    }
 
     // TODO crear una reserva ok, crear una reserva que ya este reservada y dar error,
     @Override
