@@ -1,7 +1,6 @@
 package meli.shows.entities;
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

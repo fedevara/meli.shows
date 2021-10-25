@@ -1,6 +1,5 @@
 package meli.shows.services.impl;
 
-import lombok.RequiredArgsConstructor;
 import meli.shows.entities.Butaca;
 import meli.shows.entities.assembler.ButacaAssembler;
 import meli.shows.entities.dto.ButacaDTO;
@@ -17,7 +16,7 @@ import java.util.Optional;
 public class ButacaServiceImpl implements ButacaService {
 
 
-    private ButacaRepository butacaRepository;
+    private final ButacaRepository butacaRepository;
 
     @Autowired
     public ButacaServiceImpl(ButacaRepository butacaRepository) {
@@ -37,13 +36,11 @@ public class ButacaServiceImpl implements ButacaService {
 
     }
 
-    // TODO buscar una butaca, butaca no encontrada
     @Override
     public Optional<Butaca> getById(Long id) {
         return butacaRepository.findById(id);
     }
 
-    // TODO buscar x butacas y que las devuelva bien, no devolver ninguna
     @Override
     public List<ButacaDTO> getButacasLibresFuncion(Long idFuncion) {
         List<ButacaDTO> butacaList = new ArrayList<>();
