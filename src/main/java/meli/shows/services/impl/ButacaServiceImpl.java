@@ -24,7 +24,6 @@ public class ButacaServiceImpl implements ButacaService {
         this.butacaRepository = butacaRepository;
     }
 
-    // TODO devolver algo, no veolver nada
     @Override
     public List<ButacaDTO> getAll() {
 

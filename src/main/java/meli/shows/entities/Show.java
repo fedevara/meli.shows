@@ -2,6 +2,7 @@ package meli.shows.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.Set;
 @Table(name = "Show")
 @Getter
 @Setter
+@Accessors(chain = true)
 public class Show {
 
     @Id
