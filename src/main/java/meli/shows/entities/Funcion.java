@@ -2,6 +2,7 @@ package meli.shows.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "Funcion")
 @Getter
 @Setter
+@Accessors(chain = true)
 public class Funcion {
 
     @Id

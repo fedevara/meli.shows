@@ -32,9 +32,10 @@ public class ShowCustomRepositoryImpl implements ShowCustomRepository {
     }
 
     /**
+     * Agrega los join a la consulta
      *
-     * @param request
-     * @param sb
+     * @param request parametros a filtrar
+     * @param sb      la query
      */
     private void filterJoin(AdvanceSearchRequest request, StringBuilder sb) {
 

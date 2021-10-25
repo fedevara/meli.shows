@@ -3,6 +3,7 @@ package meli.shows.services.impl;
 import meli.shows.entities.Funcion;
 import meli.shows.entities.assembler.FuncionAssembler;
 import meli.shows.entities.dto.FuncionDTO;
+import meli.shows.repository.ButacaRepository;
 import meli.shows.repository.FuncionRepository;
 import meli.shows.services.FuncionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,11 @@ public class FuncionServiceImpl implements FuncionService {
 
     @Autowired
     FuncionRepository funcionRepository;
+
+    @Autowired
+    public FuncionServiceImpl(FuncionRepository funcionRepository) {
+        this.funcionRepository = funcionRepository;
+    }
 
     @Override
     public List<FuncionDTO> getAll() {
