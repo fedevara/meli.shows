@@ -27,7 +27,7 @@ class ButacaServiceImplTest {
     public void setUp() {
         butacaRepository = Mockito.mock(ButacaRepository.class);
         butacaService = new ButacaServiceImpl(butacaRepository);
-        createButacaDataset();
+        createDataset();
     }
 
     @Test
@@ -55,7 +55,7 @@ class ButacaServiceImplTest {
 
     }
 
-    private void createButacaDataset(){
+    private void createDataset(){
 
         for (int i = 0; i < 10 ; i++){
             butacaList.add(new Butaca().setId((long) i).setFila(i).setPosicion(i).setSeccion(null).setSala(null));

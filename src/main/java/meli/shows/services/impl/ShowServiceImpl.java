@@ -21,12 +21,16 @@ import java.util.Optional;
 @Service
 public class ShowServiceImpl implements ShowService {
 
-    @Autowired
     ShowRepository showRepository;
     @Autowired
     FuncionRepository funcionRepository;
 
     Cache cache = Cache.getInstance();
+
+    @Autowired
+    public ShowServiceImpl(ShowRepository showRepository) {
+        this.showRepository = showRepository;
+    }
 
     @Override
     public List<ShowDTO> getAll() {
@@ -57,6 +61,9 @@ public class ShowServiceImpl implements ShowService {
         }
         if (funcion == null) {
             funcion = funcionRepository.getById(idFuncion);
+            if(funcion==null){
+                return null;
+            }
             cache.addFuncion(FuncionAssembler.assemble(funcion));
         }
         return funcion;

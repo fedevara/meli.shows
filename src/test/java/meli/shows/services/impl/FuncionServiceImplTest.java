@@ -29,7 +29,7 @@ class FuncionServiceImplTest {
     public void setUp() {
         funcionRepository = Mockito.mock(FuncionRepository.class);
         funcionService = new FuncionServiceImpl(funcionRepository);
-        createFuncionDataset();
+        createDataset();
     }
 
     @Test
@@ -48,7 +48,7 @@ class FuncionServiceImplTest {
 
     }
 
-    private void createFuncionDataset(){
+    private void createDataset(){
 
         LocalDateTime dateTime = LocalDateTime.of(2021, Month.JULY, 29, 19, 30, 0);
 

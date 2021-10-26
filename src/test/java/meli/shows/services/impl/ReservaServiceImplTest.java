@@ -35,7 +35,7 @@ class ReservaServiceImplTest {
     public void setUp() {
         reservaRepository = Mockito.mock(ReservaRepository.class);
         reservaService = new ReservaServiceImpl(reservaRepository);
-        createFuncionDataset();
+        createDataset();
     }
 
     @Test
@@ -48,18 +48,22 @@ class ReservaServiceImplTest {
     }
 
     @Test
-    void getAll() {
+    void registrarNotOk() {
 
-        Mockito.when(reservaRepository.findAll()).thenReturn(reservaList);
-        Assertions.assertEquals(reservaService.getAll().size(), 7);
+        Reserva reservaAGuardar = new Reserva().setDocumento("11111111").setFuncion(new Funcion().setId(1L)).setButaca(new Butaca().setId(1L));
+        Reserva reserva = new Reserva().setDocumento("123789456").setFuncion(new Funcion().setId(1L)).setButaca(new Butaca().setId(1L));
+        Mockito.when(reservaRepository.selectByButacaAndFuncion(Mockito.anyLong(),Mockito.anyLong())).thenReturn(Optional.of(reserva));
+
+        ReservaAlreadyExistException ex = Assertions.assertThrows(ReservaAlreadyExistException.class, () -> reservaService.registrar(ReservaAssembler.assemble(reservaAGuardar)));
+        Assertions.assertEquals("La butaca seleccionada ya no se encuentra disponible para la funcion", ex.getCustomMessage().getMessage());
 
     }
 
     @Test
-    void registrarNok() {
+    void getAll() {
 
-        Throwable ex = Assertions.assertThrows(ReservaAlreadyExistException.class, () -> {reservaService.registrar(ReservaAssembler.assemble(reservaList.get(1)));});
-        Assertions.assertEquals("La butaca seleccionada ya no se encuentra disponible para la funcion", ex.getMessage());
+        Mockito.when(reservaRepository.findAll()).thenReturn(reservaList);
+        Assertions.assertEquals(reservaService.getAll().size(), 7);
 
     }
 
@@ -71,7 +75,7 @@ class ReservaServiceImplTest {
 
     }
 
-    private void createFuncionDataset(){
+    private void createDataset(){
 
         LocalDateTime dateTime = LocalDateTime.of(2021, Month.JULY, 29, 19, 30, 0);
         Funcion func = new Funcion().setId(1L).setDiaHorario(dateTime);
