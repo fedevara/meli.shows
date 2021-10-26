@@ -4,16 +4,17 @@ import meli.shows.entities.Butaca;
 import meli.shows.entities.Funcion;
 import meli.shows.entities.Reserva;
 import meli.shows.entities.assembler.ReservaAssembler;
-import meli.shows.entities.dto.FuncionDTO;
 import meli.shows.entities.dto.ReservaDTO;
 import meli.shows.entities.exception.ReservaAlreadyExistException;
-import meli.shows.repository.FuncionRepository;
 import meli.shows.repository.ReservaRepository;
 import meli.shows.services.ReservaService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -24,17 +25,18 @@ import java.util.Optional;
 
 class ReservaServiceImplTest {
 
+    @Mock
     private ReservaRepository reservaRepository;
 
-    private ReservaService reservaService;
+    @InjectMocks
+    private ReservaServiceImpl reservaService;
 
-    private final List<Reserva> reservaList = new ArrayList<Reserva>();
+    private final List<Reserva> reservaList = new ArrayList<>();
     private Reserva reserva;
 
     @BeforeEach
     public void setUp() {
-        reservaRepository = Mockito.mock(ReservaRepository.class);
-        reservaService = new ReservaServiceImpl(reservaRepository);
+        MockitoAnnotations.openMocks(this);
         createDataset();
     }
 
@@ -80,7 +82,7 @@ class ReservaServiceImplTest {
         LocalDateTime dateTime = LocalDateTime.of(2021, Month.JULY, 29, 19, 30, 0);
         Funcion func = new Funcion().setId(1L).setDiaHorario(dateTime);
 
-        List<Butaca> butacaList = new ArrayList<Butaca>();
+        List<Butaca> butacaList = new ArrayList<>();
 
         for (int i = 0; i < 7 ; i++){
             butacaList.add(new Butaca().setId((long) i).setFila(i).setPosicion(i).setSeccion(null).setSala(null));
@@ -91,6 +93,8 @@ class ReservaServiceImplTest {
         }
 
         reserva = new Reserva().setFuncion(func).setNombre("Test 1").setButaca(butacaList.get(1)).setPrecio(new BigDecimal(200));
+
+
     }
 
 }

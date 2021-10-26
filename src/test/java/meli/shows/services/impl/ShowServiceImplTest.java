@@ -1,17 +1,17 @@
 package meli.shows.services.impl;
 
-import meli.shows.controllers.request.AdvanceSearchRequest;
+import meli.shows.controllers.response.FuncionButacasResponse;
 import meli.shows.entities.Funcion;
-import meli.shows.entities.Reserva;
 import meli.shows.entities.Show;
-import meli.shows.entities.dto.ShowDTO;
 import meli.shows.repository.FuncionRepository;
 import meli.shows.repository.ShowRepository;
-import meli.shows.services.ShowService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -21,21 +21,22 @@ import java.util.Optional;
 
 class ShowServiceImplTest {
 
+    @Mock
     private ShowRepository showRepository;
+    @Mock
     private FuncionRepository funcionRepository;
 
-    private ShowService showService;
+    @InjectMocks
+    private ShowServiceImpl showService;
 
-    private final List<Show> showList = new ArrayList<Show>();
+    private final List<Show> showList = new ArrayList<>();
     private Show show;
     private Funcion funcion;
-    private ShowDTO showDto;
+    private FuncionButacasResponse response;
 
     @BeforeEach
     public void setUp() {
-        showRepository = Mockito.mock(ShowRepository.class);
-        funcionRepository = Mockito.mock(FuncionRepository.class);
-        showService = new ShowServiceImpl(showRepository);
+        MockitoAnnotations.openMocks(this);
         createDataset();
     }
 
@@ -43,7 +44,7 @@ class ShowServiceImplTest {
     void getAll() {
 
         Mockito.when(showRepository.findAll()).thenReturn(showList);
-        Assertions.assertEquals(showService.getAll().size(), 3);
+        Assertions.assertEquals(showService.getAll().size(), 1);
 
     }
 
@@ -52,23 +53,15 @@ class ShowServiceImplTest {
 
         Mockito.when(funcionRepository.getById(Mockito.anyLong())).thenReturn(funcion);
         Mockito.when(showRepository.getById(Mockito.anyLong())).thenReturn(show);
-        Assertions.assertEquals(showService.getShowInfo(1L, 1L), null);
+        Assertions.assertEquals(showService.getShowInfo(1L, 1L), response);
 
     }
 
     @Test
     void getById() {
 
-        Mockito.when(funcionRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(funcion));
-        Assertions.assertEquals(showService.getById(1L).get(), funcion);
-
-    }
-
-    @Test
-    void getAdvancedAllByNombre() {
-
-        Mockito.when(showRepository.findAdvancedAll(Mockito.any(AdvanceSearchRequest.class))).thenReturn(null);
-        Assertions.assertEquals(showService.getAdvancedAll(null), null);
+        Mockito.when(showRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(show));
+        Assertions.assertEquals(showService.getById(1L).get(), show);
 
     }
 
@@ -78,18 +71,11 @@ class ShowServiceImplTest {
         funcion = new Funcion().setId(1L).setDiaHorario(dateTime);
 
         show = new Show().setId(1L).setNombre("Test 1").setDuracion(120).setCategoria("Test 1");
-/*
-        List<Butaca> butacaList = new ArrayList<Butaca>();
 
-        for (int i = 0; i < 7 ; i++){
-            butacaList.add(new Butaca().setId((long) i).setFila(i).setPosicion(i).setSeccion(null).setSala(null));
-        }
+        showList.add(show);
 
-        for (int i = 0; i < 7 ; i++){
-            reservaList.add(new Reserva().setFuncion(func).setNombre("Test " + i).setButaca(butacaList.get(i)).setPrecio(new BigDecimal(200)));
-        }
+        response = new FuncionButacasResponse().setButacas(null).setIdShow(1L).setCategoria("Test 1").setDuracion(120).setDiaHorario(dateTime).setNombre("Test 1");
 
-        reserva = new Reserva().setFuncion(func).setNombre("Test 1").setButaca(butacaList.get(1)).setPrecio(new BigDecimal(200));*/
     }
 
 }

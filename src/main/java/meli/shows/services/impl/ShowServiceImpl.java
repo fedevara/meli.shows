@@ -21,16 +21,12 @@ import java.util.Optional;
 @Service
 public class ShowServiceImpl implements ShowService {
 
+    @Autowired
     ShowRepository showRepository;
     @Autowired
     FuncionRepository funcionRepository;
 
     Cache cache = Cache.getInstance();
-
-    @Autowired
-    public ShowServiceImpl(ShowRepository showRepository) {
-        this.showRepository = showRepository;
-    }
 
     @Override
     public List<ShowDTO> getAll() {

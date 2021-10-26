@@ -3,11 +3,13 @@ package meli.shows.services.impl;
 import meli.shows.entities.Butaca;
 import meli.shows.entities.dto.ButacaDTO;
 import meli.shows.repository.ButacaRepository;
-import meli.shows.services.ButacaService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,18 +17,19 @@ import java.util.Optional;
 
 class ButacaServiceImplTest {
 
+    @Mock
     private ButacaRepository butacaRepository;
 
-    private ButacaService butacaService;
+    @InjectMocks
+    private ButacaServiceImpl butacaService;
 
-    private final List<Butaca> butacaList = new ArrayList<Butaca>();
-    private final List<ButacaDTO> butacaListDto = new ArrayList<ButacaDTO>();
+    private final List<Butaca> butacaList = new ArrayList<>();
+    private final List<ButacaDTO> butacaListDto = new ArrayList<>();
     private Butaca butaca;
 
     @BeforeEach
     public void setUp() {
-        butacaRepository = Mockito.mock(ButacaRepository.class);
-        butacaService = new ButacaServiceImpl(butacaRepository);
+        MockitoAnnotations.openMocks(this);
         createDataset();
     }
 

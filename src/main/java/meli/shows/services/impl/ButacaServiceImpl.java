@@ -15,12 +15,8 @@ import java.util.Optional;
 @Service
 public class ButacaServiceImpl implements ButacaService {
 
-    private final ButacaRepository butacaRepository;
-
     @Autowired
-    public ButacaServiceImpl(ButacaRepository butacaRepository) {
-        this.butacaRepository = butacaRepository;
-    }
+    private ButacaRepository butacaRepository;
 
     @Override
     public List<ButacaDTO> getAll() {

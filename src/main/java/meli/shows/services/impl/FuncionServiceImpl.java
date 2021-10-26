@@ -16,12 +16,8 @@ import java.util.Optional;
 @Service
 public class FuncionServiceImpl implements FuncionService {
 
-    private final FuncionRepository funcionRepository;
-
     @Autowired
-    public FuncionServiceImpl(FuncionRepository funcionRepository) {
-        this.funcionRepository = funcionRepository;
-    }
+    private FuncionRepository funcionRepository;
 
     @Override
     public List<FuncionDTO> getAll() {

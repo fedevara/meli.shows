@@ -1,13 +1,15 @@
 package meli.shows.services.impl;
 
 import meli.shows.entities.Funcion;
-import meli.shows.entities.dto.FuncionDTO;
 import meli.shows.repository.FuncionRepository;
 import meli.shows.services.FuncionService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -17,18 +19,18 @@ import java.util.Optional;
 
 class FuncionServiceImplTest {
 
+    @Mock
     private FuncionRepository funcionRepository;
 
-    private FuncionService funcionService;
+    @InjectMocks
+    private FuncionServiceImpl funcionService;
 
-    private final List<Funcion> funcionList = new ArrayList<Funcion>();
-    private final List<FuncionDTO> funcionListDto = new ArrayList<FuncionDTO>();
+    private final List<Funcion> funcionList = new ArrayList<>();
     private Funcion funcion;
 
     @BeforeEach
     public void setUp() {
-        funcionRepository = Mockito.mock(FuncionRepository.class);
-        funcionService = new FuncionServiceImpl(funcionRepository);
+        MockitoAnnotations.openMocks(this);
         createDataset();
     }
 
@@ -57,10 +59,6 @@ class FuncionServiceImplTest {
         }
 
         funcion = new Funcion().setId(1L).setDiaHorario(LocalDateTime.now());
-
-        for (int i = 0; i < 10 ; i++){
-            funcionListDto.add(new FuncionDTO().setId((long) i).setDiaHorario(dateTime));
-        }
 
     }
 
