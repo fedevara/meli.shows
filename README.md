@@ -9,7 +9,28 @@ Para el desarrollo se utilizaron las siguientes tecnologias:
 - Lombok plugin
 - Log4j plugin
 - EntityMapper plugin
+- Junit
 
+## Instalacion
+
+#### 1- Clonar el proyecto:
+```
+git clone git@github.com:fedevara/meli.shows.git
+```
+#### 2- Descargar h2 connector:
+```
+https://www.h2database.com/html/download.html
+```
+#### 3- Asegurarse de tener java 8 o superior instalado
+```
+https://www.java.com/es/download/ie_manual.jsp
+```
+#### 4- Ejecutar clean install sobre el proyecto maven
+
+## Ejecucion
+
+#### 1- Iniciar la consola de h2
+#### 2- Ejecutar la aplicacion desde el main menu: clase Application
 
 ## Endpoints
 
@@ -41,6 +62,7 @@ POST /shows/reservar-butaca
     "funcion": 1,
     "nombre": "Fede Vara",
     "documento": 12345,
-    "butaca": 1
+    "butaca": 1,
+    "precio": 200.0
 }
 ```
