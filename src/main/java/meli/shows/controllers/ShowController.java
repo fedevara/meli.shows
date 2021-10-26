@@ -10,9 +10,7 @@ import meli.shows.entities.dto.ButacaDTO;
 import meli.shows.entities.dto.FuncionDTO;
 import meli.shows.entities.dto.ReservaDTO;
 import meli.shows.entities.dto.ShowDTO;
-import meli.shows.entities.exception.RangoFechaException;
-import meli.shows.entities.exception.RangoPrecioException;
-import meli.shows.entities.exception.ReservaAlreadyExistException;
+import meli.shows.entities.exception.*;
 import meli.shows.services.ButacaService;
 import meli.shows.services.FuncionService;
 import meli.shows.services.ReservaService;
@@ -69,7 +67,7 @@ public class ShowController {
                 }
             }
             if (precioMaximo != null && precioMinimo != null) {
-                if (Double.valueOf(precioMaximo).compareTo(Double.valueOf(precioMinimo)) < 0) {
+                if (precioMaximo.compareTo(precioMinimo) < 0) {
                     throw new RangoPrecioException();
                 }
             }
@@ -84,12 +82,19 @@ public class ShowController {
     }
 
     @GetMapping("/listar-butacas-disponibles")
-    public ResponseEntity<FuncionButacasResponse> getAll(@RequestParam(value = "funcion_id") Long idFuncion,
-                                                         @RequestParam(value = "show_id") Long idShow) {
+    public ResponseEntity<Object> getAll(@RequestParam(value = "funcion_id") Long idFuncion,
+                                         @RequestParam(value = "show_id") Long idShow) {
         logger.debug("Búsqueda del show: " + idFuncion + ", funcion: " + idFuncion);
-        FuncionButacasResponse funcionButacasResponse = showService.getShowInfo(idFuncion, idShow);
-        funcionButacasResponse.setButacas(butacaService.getButacasLibresFuncion(idFuncion));
-        return ResponseEntity.ok(funcionButacasResponse);
+        try {
+            FuncionButacasResponse funcionButacasResponse = showService.getShowInfo(idFuncion, idShow);
+            funcionButacasResponse.setButacas(butacaService.getButacasLibresFuncion(idFuncion));
+            return ResponseEntity.ok(funcionButacasResponse);
+        } catch (FuncionNotFoundException e) {
+            return new ResponseEntity<>(e.getCustomMessage(), HttpStatus.BAD_REQUEST);
+        } catch (ShowNotFoundException e) {
+            return new ResponseEntity<>(e.getCustomMessage(), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @PostMapping("/reservar-butaca")

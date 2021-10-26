@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Getter
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-public class RangoFechaException extends Exception {
+public class ShowNotFoundException extends Exception {
 
     private final MessageDTO customMessage;
 
-    public RangoFechaException() {
-        customMessage = new MessageDTO("El rango de fechas ingresado no es valido");
+    public ShowNotFoundException() {
+        customMessage = new MessageDTO("El show que esta buscando no es correcto");
     }
 
 }

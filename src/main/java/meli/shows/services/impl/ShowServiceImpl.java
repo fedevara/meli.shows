@@ -7,6 +7,8 @@ import meli.shows.entities.Show;
 import meli.shows.entities.assembler.FuncionAssembler;
 import meli.shows.entities.assembler.ShowAssembler;
 import meli.shows.entities.dto.ShowDTO;
+import meli.shows.entities.exception.FuncionNotFoundException;
+import meli.shows.entities.exception.ShowNotFoundException;
 import meli.shows.extra.Cache;
 import meli.shows.repository.FuncionRepository;
 import meli.shows.repository.ShowRepository;
@@ -44,40 +46,44 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public FuncionButacasResponse getShowInfo(Long idFuncion, Long idShow) {
+    public FuncionButacasResponse getShowInfo(Long idFuncion, Long idShow) throws FuncionNotFoundException, ShowNotFoundException {
         Funcion funcion = getFuncion(idFuncion);
         ShowDTO show = getShowById(idShow);
         return fillFuncionButacaResponse(funcion, show);
     }
 
-    private Funcion getFuncion(Long idFuncion) {
+    private Funcion getFuncion(Long idFuncion) throws FuncionNotFoundException {
         Funcion funcion = null;
         if (cache.isDataValid()) {
             funcion = FuncionAssembler.assemble(cache.getFuncion(idFuncion));
         }
         if (funcion == null) {
-            funcion = funcionRepository.getById(idFuncion);
-            if(funcion==null){
-                return null;
+            try {
+                funcion = funcionRepository.getById(idFuncion);
+                cache.addFuncion(FuncionAssembler.assemble(funcion));
+            } catch (Exception e) {
+                throw new FuncionNotFoundException();
             }
-            cache.addFuncion(FuncionAssembler.assemble(funcion));
         }
         return funcion;
     }
 
-    private ShowDTO getShowById(Long idShow) {
+    private ShowDTO getShowById(Long idShow) throws ShowNotFoundException {
         ShowDTO show = null;
         if (cache.isDataValid()) {
             show = cache.getShow(idShow);
         }
         if (show == null) {
-            show = ShowAssembler.assemble(showRepository.getById(idShow));
-            cache.addShow(show);
+            try {
+                show = ShowAssembler.assemble(showRepository.getById(idShow));
+                cache.addShow(show);
+            } catch (Exception e) {
+                throw new ShowNotFoundException();
+            }
         }
         return show;
     }
 
-    //TODO solo testear metodo publicos
     private FuncionButacasResponse fillFuncionButacaResponse(Funcion funcion, ShowDTO show) {
         FuncionButacasResponse funButacaRes = new FuncionButacasResponse();
         funButacaRes.setIdShow(show.getId());

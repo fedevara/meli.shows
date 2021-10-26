@@ -3,6 +3,8 @@ package meli.shows.services.impl;
 import meli.shows.controllers.response.FuncionButacasResponse;
 import meli.shows.entities.Funcion;
 import meli.shows.entities.Show;
+import meli.shows.entities.exception.FuncionNotFoundException;
+import meli.shows.entities.exception.ShowNotFoundException;
 import meli.shows.repository.FuncionRepository;
 import meli.shows.repository.ShowRepository;
 import org.junit.jupiter.api.Assertions;
@@ -53,7 +55,11 @@ class ShowServiceImplTest {
 
         Mockito.when(funcionRepository.getById(Mockito.anyLong())).thenReturn(funcion);
         Mockito.when(showRepository.getById(Mockito.anyLong())).thenReturn(show);
-        Assertions.assertEquals(showService.getShowInfo(1L, 1L), response);
+        try {
+            Assertions.assertEquals(showService.getShowInfo(1L, 1L), response);
+        } catch (FuncionNotFoundException | ShowNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
